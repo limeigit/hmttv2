@@ -1,0 +1,119 @@
+<ns0:test-suite xmlns:ns0="urn:model.allure.qatools.yandex.ru" start="1573999658331" stop="1573999734125">
+  <name>test04_mis_audit</name>
+  <labels/>
+  <test-cases>
+    <test-case start="1573999658331" status="failed" stop="1573999734125">
+      <name>TestMisAudit.test_page_mis_audit</name>
+      <failure>
+        <message>AttributeError: 'NoneType' object has no attribute 'error'</message>
+        <stack-trace>self = &lt;test04_mis_audit.TestMisAudit object at 0x04296C30&gt;
+
+    def test_page_mis_audit(self):
+        # 1.调用审批的方法
+        self.page_in.page_get_PageMisAudit.page_audit("test123", "数据库")
+        try:
+            # 2.判断是否审批通过
+&gt;           result = self.page_in.page_get_PageMisAudit.page_mis_is_pass("test123", "数据库")
+
+scripts\test04_mis_audit.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;page.page_mis_audit.PageMisAudit object at 0x04296F50&gt;, title = 'test123', channel = '数据库'
+
+    def page_mis_is_pass(self, title, channel):
+        time.sleep(3)
+        # 1.先刷新一下页面
+        self.driver.refresh()
+        # 2.输入title
+        self.page_mis_audit_input_title(title)
+        # 3.输入频道
+        self.page_mis_audit_search_channel(channel)
+        # 4.选择状态
+        self.base_audit("请选择状态", "审核通过")
+        # 5.点击查询
+        self.page_mis_click_search()
+        time.sleep(10)
+        print("未审批的文章id为：", self.article_id)
+&gt;       return self.base_elemnt_exits(self.article_id)
+
+page\page_mis_audit.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;page.page_mis_audit.PageMisAudit object at 0x04296F50&gt;, element_text = None
+
+    def base_elemnt_exits(self, element_text):
+        loc = By.XPATH, "//*[contains(text(),'{}')]".format(element_text)
+&gt;       element = self.base_find_element(loc, timeout=5)
+
+base\base.py:56: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;page.page_mis_audit.PageMisAudit object at 0x04296F50&gt;, loc = ('xpath', "//*[contains(text(),'None')]"), timeout = 5, poll = 0.5
+
+    def base_find_element(self, loc, timeout=30, poll=0.5):
+&gt;       return WebDriverWait(self.driver, timeout=timeout, poll_frequency=poll).until(lambda x: x.find_element(*loc))
+
+base\base.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;selenium.webdriver.support.wait.WebDriverWait (session="3db84e06986186199f1de3b164a0fccc")&gt;, method = &lt;function Base.base_find_element.&lt;locals&gt;.&lt;lambda&gt; at 0x0429B390&gt;
+message = ''
+
+    def until(self, method, message=''):
+        """Calls the method provided with the driver as an argument until the \
+        return value is not False."""
+        screen = None
+        stacktrace = None
+    
+        end_time = time.time() + self._timeout
+        while True:
+            try:
+                value = method(self._driver)
+                if value:
+                    return value
+            except self._ignored_exceptions as exc:
+                screen = getattr(exc, 'screen', None)
+                stacktrace = getattr(exc, 'stacktrace', None)
+            time.sleep(self._poll)
+            if time.time() &gt; end_time:
+                break
+&gt;       raise TimeoutException(message, screen, stacktrace)
+E       selenium.common.exceptions.TimeoutException: Message:
+
+e:\python\lib\site-packages\selenium\webdriver\support\wait.py:80: TimeoutException
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;test04_mis_audit.TestMisAudit object at 0x04296C30&gt;
+
+    def test_page_mis_audit(self):
+        # 1.调用审批的方法
+        self.page_in.page_get_PageMisAudit.page_audit("test123", "数据库")
+        try:
+            # 2.判断是否审批通过
+            result = self.page_in.page_get_PageMisAudit.page_mis_is_pass("test123", "数据库")
+            print("审批通过的文章id为：",result)
+            assert result == True
+        except Exception as e:
+            # 截图
+            self.page_in.page_get_PageMisAudit.base_get_image()
+            # 写入日志
+&gt;           log.error(e)
+E           AttributeError: 'NoneType' object has no attribute 'error'
+
+scripts\test04_mis_audit.py:40: AttributeError</stack-trace>
+      </failure>
+      <attachments>
+        <attachment source="d7ab077b-9450-456c-bf8d-b8a90323af7c-attachment.png" title="错误截图" type="image/png"/>
+      </attachments>
+      <labels>
+        <label name="severity" value="normal"/>
+        <label name="thread" value="214888-MainThread"/>
+        <label name="host" value="SC-201907121619"/>
+        <label name="framework" value="pytest"/>
+        <label name="language" value="cpython3"/>
+      </labels>
+      <steps/>
+    </test-case>
+  </test-cases>
+</ns0:test-suite>
